@@ -13,6 +13,13 @@
 
 int get_option(int type, const char *msg)
 {
+	if (type == NONE) {
+		scanf("%c\n");
+	}
+	else if (type == NUM) {
+		return scanf("%d\n");
+	}
+	return scanf("%c\n");
 	/*
 	 * Mutilfuction user intractions like
 	 * Just an enter key detection
