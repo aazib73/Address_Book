@@ -15,6 +15,8 @@
 
 int get_option(int type, const char *msg)
 {
+	printf("%s", msg);
+
 	if (type == NONE) {
 		scanf("%c\n");
 	}
@@ -149,18 +151,80 @@ Status menu(AddressBook *address_book)
 	return e_success;
 }
 
+/*
+typedef struct
+{
+	char name[NAME_COUNT][NAME_LEN];
+	char phone_numbers[PHONE_NUMBER_COUNT][NUMBER_LEN];
+	char email_addresses[EMAIL_ID_COUNT][EMAIL_ID_LEN];
+	int si_no;
+} ContactInfo;
+
+typedef struct
+{
+	FILE *fp;
+	ContactInfo *list;
+	int count;	
+} AddressBook;
+*/
+
 Status add_contacts(AddressBook *address_book)				// case e_add_contact will call this
 {
-	// to add a contact -> access address_book
-	// increase count + 1
-	// create a contact file (???) .csv
-	// address_book->list->name = " "
-	// address_book->list->phone_number = " "
-	// address_book->list->email = " "
-	// address_book->list->si_no (what is si_no?)
-	// so we need to get name, phone_number, email, and si_no (?) inputted from the console
+	int option;
+	char name[NAME_LEN] = "";
+	char number[NUMBER_LEN] = "";
+	char email[EMAIL_ID_LEN] = "";
+	do {
+		// printing out the Add Contact menu
+		menu_header("Add Contact:");
+		printf("0. Back		   \n");
+		printf("1. Name		  : %s\n", name ? name : "");		// if name, number, email are null, then "" (nothing) is printed
+		printf("2. Phone No 1 : %s\n", number ? number : "");
+		printf("3. Email ID 1 : %s\n", email ? email : "");
 
+		//waiting for user input
+		option = get_option(NUM, "Please select an option: ");
+
+		switch (option) {
+			case e_second_opt:
+				fgets(name, NAME_LEN, stdin);	//gets standard input (so user input) and limits the buffer to NAME_LEN so there's no overflow.
+				break;
+			case e_third_opt:
+				fgets(number, NUMBER_LEN, stdin);
+				break;
+			case e_fourth_opt:
+				fgets(email, EMAIL_ID_LEN, stdin);
+				break;
+			case e_exit:
+				break;
+		}
+
+	} while (option != e_exit);
+
+	char * writeAddress;		// better way to write??
+	if (name != "") {	// if name isn't null; we write the name to the address
+		writeAddress = address_book->list->name[0][0];
+		for (int i = 0; i < NAME_LEN; i++) {
+			writeAddress[i] = name[i];
+		}
+	}
 	
+	if (number != "") {		// FIX FIX:: Currently only writing to the first of 5 avaliable phone number slots
+		writeAddress = address_book->list->phone_numbers[0][0];		
+		for (int i = 0; i < NUMBER_LEN; i++) {
+			writeAddress[i] = number[i];
+		}
+	}
+
+	if (email != "") {		// FIX FIX:: Currently only writing to the first of 5 avaliable email slots
+		writeAddress = address_book->list->email_addresses[0][0];
+		for (int i = 0; i < EMAIL_ID_LEN; i++) {
+			writeAddress[i] = email[i];
+		}
+	}
+	 
+
+	return e_success;
 } 
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
