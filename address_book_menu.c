@@ -172,9 +172,72 @@ Status search_contact(AddressBook *address_book)
     return e_fail;
 }
 
-Status search_contact(AddressBook *address_book)
+Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
 {
-	/* Add the functionality for search contacts here */
+    int i, j;
+    int found = 0;
+
+    for(i = 0; i < address_book->count; i++)
+    {
+        if(field == 0) // Name search
+        {
+            if(strcmp(address_book->list[i].name[0], str) == 0)
+            {
+                printf("\nMatch Found:\n");
+                printf("Name: %s\n", address_book->list[i].name[0]);
+
+                for(j = 0; j < PHONE_NUMBER_COUNT; j++)
+                {
+                    if(strlen(address_book->list[i].phone_numbers[j]) > 0)
+                        printf("Phone: %s\n", address_book->list[i].phone_numbers[j]);
+                }
+
+                for(j = 0; j < EMAIL_ID_COUNT; j++)
+                {
+                    if(strlen(address_book->list[i].email_addresses[j]) > 0)
+                        printf("Email: %s\n", address_book->list[i].email_addresses[j]);
+                }
+
+                found = 1;
+            }
+        }
+
+        else if(field == 1) // Phone search
+        {
+            for(j = 0; j < PHONE_NUMBER_COUNT; j++)
+            {
+                if(strcmp(address_book->list[i].phone_numbers[j], str) == 0)
+                {
+                    printf("\nMatch Found:\n");
+                    printf("Name: %s\n", address_book->list[i].name[0]);
+                    printf("Phone: %s\n", address_book->list[i].phone_numbers[j]);
+                    found = 1;
+                }
+            }
+        }
+
+        else if(field == 2) // Email search
+        {
+            for(j = 0; j < EMAIL_ID_COUNT; j++)
+            {
+                if(strcmp(address_book->list[i].email_addresses[j], str) == 0)
+                {
+                    printf("\nMatch Found:\n");
+                    printf("Name: %s\n", address_book->list[i].name[0]);
+                    printf("Email: %s\n", address_book->list[i].email_addresses[j]);
+                    found = 1;
+                }
+            }
+        }
+    }
+
+    if(!found)
+    {
+        printf("\nNo contact found\n");
+        return e_no_match;
+    }
+
+    return e_success;
 }
 
 Status edit_contact(AddressBook *address_book)
