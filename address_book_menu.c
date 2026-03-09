@@ -138,9 +138,38 @@ Status add_contacts(AddressBook *address_book)
 	/* Add the functionality for adding contacts here */
 }
 
-Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
+Status search_contact(AddressBook *address_book)
 {
-	/* Add the functionality for adding contacts here */
+    int option;
+    char search_str[32];
+
+    printf("\nSearch Contact By:\n");
+    printf("1. Name\n");
+    printf("2. Phone Number\n");
+    printf("3. Email\n");
+
+    printf("Enter option: ");
+    scanf("%d", &option);
+
+    printf("Enter search value: ");
+    scanf("%s", search_str);
+
+    switch(option)
+    {
+        case 1:
+            return search(search_str, address_book, address_book->count, 0, "Name Search", e_search);
+
+        case 2:
+            return search(search_str, address_book, address_book->count, 1, "Phone Search", e_search);
+
+        case 3:
+            return search(search_str, address_book, address_book->count, 2, "Email Search", e_search);
+
+        default:
+            printf("Invalid option\n");
+    }
+
+    return e_fail;
 }
 
 Status search_contact(AddressBook *address_book)
