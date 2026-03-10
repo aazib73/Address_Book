@@ -15,12 +15,12 @@ int main(void)
 	/* Load the file from .csv file if any */
 	ret = load_file(&address_book);
 
-	if (ret == e_success)
+	if (ret == e_success)						//if successfull, then we show the menu
 	{
 		/* Show all the available menu */
 		ret = menu(&address_book);
 
-		if (ret == e_success)
+		if (ret == e_success)					// if showing the menu is successfull, then we save the prompt
 		{
 			/* Save the entries */
 			save_prompt(&address_book);

@@ -13,6 +13,19 @@
 
 int get_option(int type, const char *msg)
 {
+	printf("%s", msg);
+
+    int ret = 0;
+	if (type == NONE) {
+		scanf("%c", &ret);
+	}
+	else if (type == NUM) {
+		scanf("%d", &ret);
+	}
+    else if (type == CHAR) {
+        scanf("%c", &ret);
+    }
+    return ret;
 	/*
 	 * Mutilfuction user intractions like
 	 * Just an enter key detection
@@ -40,12 +53,13 @@ Status save_prompt(AddressBook *address_book)
 
 			break;
 		}
-	} while (option != 'N');
+	} while (option != 'N');					
 
 	free(address_book->list);
 
 	return e_success;
 }
+
 
 Status list_contacts(AddressBook *address_book, const char *title, int *index, const char *msg, Modes mode)
 {
@@ -57,6 +71,7 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 
 	return e_success;
 }
+
 
 void menu_header(const char *str)
 {
@@ -135,8 +150,50 @@ Status menu(AddressBook *address_book)
 
 Status add_contacts(AddressBook *address_book)
 {
-	/* Add the functionality for adding contacts here */
-}
+	int option;
+	char name[NAME_LEN] = "";
+	char number[NUMBER_LEN] = "";
+	char email[EMAIL_ID_LEN] = "";
+	do {
+		// printing out the Add Contact menu
+		menu_header("Add Contact:");
+		printf("0. Back		   \n");
+		printf("1. Name		  : %s\n", name);		
+		printf("2. Phone No 1 : %s\n", number);
+		printf("3. Email ID 1 : %s\n", email);
+
+		//get user input
+		option = get_option(NUM, "Please select an option: ");
+
+		switch (option) {
+			case e_second_opt:
+				fgets(name, NAME_LEN, stdin);	//gets the input and limits the buffer to NAME_LEN so there's no overflow.
+				break;
+			case e_third_opt:
+				fgets(number, NUMBER_LEN, stdin);
+				break;
+			case e_fourth_opt:
+				fgets(email, EMAIL_ID_LEN, stdin);
+				break;
+			case e_first_opt:
+				break;
+		}
+
+	} while (option != e_first_opt);
+
+	/* Two things:
+	1. name is a pointer, so this condition is invalid.
+	2. name is already a char*, so you only need one [] at the end
+	3. You forgot to increment address_book-> count after all of this.
+	*/
+	if (strlen(name) > 0) strcpy(address_book->list[address_book->count].name[0], name);
+	if (strlen(number) > 0) strcpy(address_book->list[address_book->count].phone_numbers[0], number);
+	if (strlen(email) > 0) strcpy(address_book->list[address_book->count].email_addresses[0], email);
+
+	address_book->count++;
+	
+	return e_success;
+} 
 
 Status search_contact(AddressBook *address_book)
 {
