@@ -196,7 +196,7 @@ Status menu(AddressBook *address_book)
 				delete_contact(address_book);
 				break;
 			case e_list_contacts:
-			list_contacts(address_book , "list contacts", &index, "", e_list);
+			list_contacts(address_book , "list contacts", &current_index, "", e_list);
 				break;
 			case e_save:
 				save_file(address_book);
