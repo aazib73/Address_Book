@@ -17,13 +17,17 @@ int get_option(int type, const char *msg)
 {
 	printf("%s", msg);
 
+    int ret = 0;
 	if (type == NONE) {
-		scanf("%c\n");
+		scanf("%c", &ret);
 	}
 	else if (type == NUM) {
-		return scanf("%d\n");
+		scanf("%d", &ret);
 	}
-	return scanf("%c\n");
+    else if (type == CHAR) {
+        scanf("%c", &ret);
+    }
+    return ret;
 	/*
 	 * Mutilfuction user intractions like
 	 * Just an enter key detection
