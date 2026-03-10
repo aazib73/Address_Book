@@ -207,22 +207,22 @@ Status search_contact(AddressBook *address_book)
 			case e_second_opt:
 				printf("Enter the Name: ");
 				fgets(search_str, 32, stdin);
-				search(search_str, address_book, address_book->count, 0, "Name Search", e_search);
+				search(search_str, address_book, address_book->count, 0, "Press: [q] | Cancel: ", e_search);
 				break;
 			case e_third_opt:
 				printf("Enter the Phone: ");
 				fgets(search_str, 32, stdin);
-				search(search_str, address_book, address_book->count, 1, "Phone Search", e_search);
+				search(search_str, address_book, address_book->count, 1, "Press: [q] | Cancel: ", e_search);
 				break;
 			case e_fourth_opt:
 				printf("Enter the Email: ");
 				fgets(search_str, 32, stdin);
-				search(search_str, address_book, address_book->count, 2, "Email Search", e_search); // we definitely do not return the value from search function
+				search(search_str, address_book, address_book->count, 2, "Press: [q] | Cancel: ", e_search); // we definitely do not return the value from search function
 				break;																				// we just run; but do we check status of search maybe ??
 			case e_fifth_opt:
 				printf("Enter the Serial No: ");
 				fgets(search_str, 32, stdin);
-				search(search_str, address_book, address_book->count, 3, "Serial Search", e_search);
+				search(search_str, address_book, address_book->count, 3, "Press: [q] | Cancel: ", e_search);
 				break;
 			case e_first_opt:
 				break;
