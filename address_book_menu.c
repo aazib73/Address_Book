@@ -244,73 +244,93 @@ Status edit_contact(AddressBook *address_book)
 {
 	/* Add the functionality for edit contacts here */
 	int index = -1;
+	char name[NAME_LEN]; // NAME_LEN is preset to 32 bytes but it needs to be up here
 	while(1)
 	{
 		printf("Name of Contact to edit (q to quit): ");
-		char name[32];
-		scanf("%s", &name);
+		// scanf needs the address of the variable, char* is a pointer already so you don't need the &
+		scanf("%s", name); 
 
-		if(strcmp(name, "q"))
+		// This is still a comparison but strcmp returns an int, it will automatically be true
+		if(strcmp(name, "q") == 0)
 			return e_back;
 
 		for(int i = 0; i < address_book->count; i++)
 		{
-			if(strcmp(name, address_book->list->name[i]))
+			// Same Issue from Line 255
+			if(strcmp(name, address_book->list.name[0]) == 0)
 			{
 				index = i;
 				break;
 			}
 		}
 
+		// This is an infinite loop so there still needs to be a way to exit
+		if (index != -1)
+			break;
+
 		printf("Name not found try again\n");
 	}
 
+	/* Syntax Errors:
+		Refer to Line 251 for scanf error
+		char* name is already defined earlier in the code
+	*/
 	printf("New name of contact: ");
-	char name[NAME_LEN];
-	scanf("%s", &name);
-	strcpy(address_book->list->name[index], name);
+	char new_name[NAME_LEN];
+	scanf("%s", new_name);
+	strcpy(address_book->list[index].name[0], new_name);
 
 	printf("New number: ");
-	char num[NUMBER_LEN];
-	scanf("%s", &num);
-	strcpy(address_book->list->phone_numbers[index], num);
+	char new_num[NUMBER_LEN];
+	scanf("%s", new_num);
+	strcpy(address_book->list[index].phone_numbers[0], new_num);
 
 	printf("New email: ");
-	char email[EMAIL_ID_LEN];
-	scanf("%s", &email);
-	strcpy(address_book->list->email_addresses[index], email);
+	char new_email[EMAIL_ID_LEN];
+	scanf("%s", new_email);
+	strcpy(address_book->list[index].email_addresses[0], new_email);
 
 	return e_success;
 }
 
+/* Recent commit: Many of the errors from the edit_contact
+   were also found here, you can refer to the comments I
+   made above about some of the errors since they're pretty
+   much the same from the previous function.
+   Feel free to delete this after you looked at them.
+*/
 Status delete_contact(AddressBook *address_book)
 {
 	/* Add the functionality for delete contacts here */
 	int index = -1;
+	char name[NAME_LEN];
 	while(1)
 	{
 		printf("Name of Contact to delete (q to quit): ");
-		char name[NAME_LEN];
-		scanf("%s", &name);
+		scanf("%s", name);
 
-		if(strcmp(name, "q"))
+		if(strcmp(name, "q") == 0)
 			return e_back;
 
 		for(int i = 0; i < address_book->count; i++)
 		{
-			if(strcmp(name, address_book->list->name[i]))
+			if(strcmp(name, address_book->list.name[0]) == 0)
 			{
 				index = i;
 				break;
 			}
 		}
 
-		printf("Name not found try again\n");
+		if (index != -1)
+			break;
+
+		printf("Name not found, try again\n");
 	}
 
-	strcpy(address_book->list->name[index], "");
-	strcpy(address_book->list->phone_numbers[index], "");
-	strcpy(address_book->list->email_addresses[index], "");
+	strcpy(address_book->list[index].name[0], "");
+	strcpy(address_book->list[index].phone_numbers[0], "");
+	strcpy(address_book->list[index].email_addresses[0], "");
 
 	return e_success;
 }
