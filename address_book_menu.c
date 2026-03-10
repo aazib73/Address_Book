@@ -11,8 +11,6 @@
 //#include "abk_menus.h"
 //#include "abk.h"
 
-// all of these functions are in the context of the Console Menu
-
 int get_option(int type, const char *msg)
 {
 	printf("%s", msg);
@@ -38,33 +36,31 @@ int get_option(int type, const char *msg)
 	/* Fill the code to add above functionality */
 }
 
-// 																							This function, when called, prompts the user if he wants to save.
-// 																							It returns a "status"; prompt successful? failed? so on
-Status save_prompt(AddressBook *address_book)												// what does save_prompt do??
+Status save_prompt(AddressBook *address_book)
 {
-	char option;																			// option?
+	char option;
 
 	do
 	{
-		main_menu();																		//prints the main menu
+		main_menu();
 
-		option = get_option(CHAR, "\rEnter 'N' to Ignore and 'Y' to Save: ");				// option = response to "Y/N"
+		option = get_option(CHAR, "\rEnter 'N' to Ignore and 'Y' to Save: ");
 
-		if (option == 'Y')																	// if "Y" response; save file, and give feedback: "saving your data in the DEFAULT_FILE"
+		if (option == 'Y')
 		{
 			save_file(address_book);
 			printf("Exiting. Data saved in %s\n", DEFAULT_FILE);
 
 			break;
 		}
-	} while (option != 'N');																// and we just keep doing this									
-// 																							while the response isnt "NO"
-	free(address_book->list);																// afterwards, it free's the information from memory; it's now stored in a file
+	} while (option != 'N');					
+
+	free(address_book->list);
 
 	return e_success;
 }
 
-// 																							When called this lists all the contacts in the address book in the console
+
 Status list_contacts(AddressBook *address_book, const char *title, int *index, const char *msg, Modes mode)
 {
 	/* 
@@ -76,7 +72,7 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 	return e_success;
 }
 
-//																							this just prints out a "header". this is just for it to look cool
+
 void menu_header(const char *str)
 {
 	fflush(stdout);
@@ -90,7 +86,6 @@ void menu_header(const char *str)
 	}
 }
 
-//																							prints out the main_menu
 void main_menu(void)
 {
 	menu_header("Features:\n");
@@ -106,36 +101,34 @@ void main_menu(void)
 	printf("Please select an option: ");
 }
 
-// 																							runs all the logic for the menu
-// 
 Status menu(AddressBook *address_book)
 {
-	ContactInfo backup;							// ??
-	Status ret;									// the status of the function; success, fail etc
-	int option;									// the user input
+	ContactInfo backup;
+	Status ret;
+	int option;
 
 	do
 	{
-		main_menu();							// prints main menu
+		main_menu();
 
-		option = get_option(NUM, "");			// asks for input; expecting an int to be returned s
+		option = get_option(NUM, "");
 
-		if ((address_book-> count == 0) && (option != e_add_contact))	// if the address book it got has no contacts, and the user doesn't want to add a contact, then:
+		if ((address_book-> count == 0) && (option != e_add_contact))
 		{
-			get_option(NONE, "No entries found!!. Would you like to add? Use Add Contacts");	// just waiting for the user to press "enter"
+			get_option(NONE, "No entries found!!. Would you like to add? Use Add Contacts");
 
 			continue;
 		}
 
-		switch (option)														// "if: then" for all the possible inputs the user could do
+		switch (option)
 		{
-			case e_add_contact:												// the code to add a contact
+			case e_add_contact:
 				/* Add your implementation to call add_contacts function here */
 				break;
-			case e_search_contact:											// the code to search for a contact
+			case e_search_contact:
 				search_contact(address_book);
 				break;
-			case e_edit_contact:											// so on
+			case e_edit_contact:
 				edit_contact(address_book);
 				break;
 			case e_delete_contact:
