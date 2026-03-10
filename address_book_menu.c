@@ -366,7 +366,7 @@ Status delete_contact(AddressBook *address_book)
 	char name[NAME_LEN];
 	while(1)
 	{
-		printf("Name of Contact to delete (q to quit): ");
+		menu_header("Search Contact to Delete by:");
 		scanf("%s", name);
 
 		if(strcmp(name, "q") == 0)
