@@ -151,24 +151,7 @@ Status menu(AddressBook *address_book)
 	return e_success;
 }
 
-/*
-typedef struct
-{
-	char name[NAME_COUNT][NAME_LEN];
-	char phone_numbers[PHONE_NUMBER_COUNT][NUMBER_LEN];
-	char email_addresses[EMAIL_ID_COUNT][EMAIL_ID_LEN];
-	int si_no;
-} ContactInfo;
-
-typedef struct
-{
-	FILE *fp;
-	ContactInfo *list;
-	int count;	
-} AddressBook;
-*/
-
-Status add_contacts(AddressBook *address_book)				// case e_add_contact will call this
+Status add_contacts(AddressBook *address_book)
 {
 	int option;
 	char name[NAME_LEN] = "";
@@ -178,16 +161,16 @@ Status add_contacts(AddressBook *address_book)				// case e_add_contact will cal
 		// printing out the Add Contact menu
 		menu_header("Add Contact:");
 		printf("0. Back		   \n");
-		printf("1. Name		  : %s\n", name ? name : "");		// if name, number, email are null, then "" (nothing) is printed
-		printf("2. Phone No 1 : %s\n", number ? number : "");
-		printf("3. Email ID 1 : %s\n", email ? email : "");
+		printf("1. Name		  : %s\n", name);		
+		printf("2. Phone No 1 : %s\n", number);
+		printf("3. Email ID 1 : %s\n", email);
 
-		//waiting for user input
+		//get user input
 		option = get_option(NUM, "Please select an option: ");
 
 		switch (option) {
 			case e_second_opt:
-				fgets(name, NAME_LEN, stdin);	//gets standard input (so user input) and limits the buffer to NAME_LEN so there's no overflow.
+				fgets(name, NAME_LEN, stdin);	//gets the input and limits the buffer to NAME_LEN so there's no overflow.
 				break;
 			case e_third_opt:
 				fgets(number, NUMBER_LEN, stdin);
@@ -202,15 +185,8 @@ Status add_contacts(AddressBook *address_book)				// case e_add_contact will cal
 	} while (option != e_exit);
 
 	if (name != "") strcpy(address_book->list->name[0][0], name);
-	
-
-	if (email != "") {		// FIX FIX:: Currently only writing to the first of 5 avaliable email slots
-		writeAddress = address_book->list->email_addresses[0][0];
-		for (int i = 0; i < EMAIL_ID_LEN; i++) {
-			writeAddress[i] = email[i];
-		}
-	}
-	 
+	if (number != "") strcpy(address_book->list->phone_numbers[0][0], number);
+	if (email != "") strcpy(address_book->list->email_addresses[0][0], email);
 
 	return e_success;
 } 
