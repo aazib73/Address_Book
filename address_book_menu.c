@@ -54,19 +54,40 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 	 * Should be menu based
 	 * The menu provide navigation option if the entries increase the page size
 	 */ 
-
+	bool_t list_contacts =1;
+	char choice;
 	if( address_book -> count == 0){
 
 		printf("There are no contacts, please add them");
 	}else{
-		
-		for(int i=0; i<address_book -> count; i++){
+		while( list_contacts){
+			for( int i= *index; i<address_book -> count && i<(*index + PAGE_SIZE);i++){
 
-			printf("Name: %s\n", address_book->list[i].name[0]);
+				printf("Name: %s\n", address_book->list[i].name[0]);
+				printf("Phone: %s\n", address_book -> list[i].phone_numbers[0]);
+				printf("Email: %s\n", address_book -> list[i].email_addresses[0]);
+				}
 
-			printf("Phone: %s\n", address_book -> list[i].phone_numbers[0]);
+			if(*index + PAGE_SIZE< address_book -> count){
 
-			printf("Email: %s\n", address_book -> list[i].email_addresses[0]);
+				printf("Do you want to print the next page? Y/N\n");
+				scanf(" %c", &choice);
+
+				if(choice == 'Y'||choice == 'y'){
+
+				*index = *index + PAGE_SIZE;
+
+				}else{
+
+					list_contacts = 0;
+
+				}
+
+			}else{
+
+				list_contacts = 0;
+			}
+				
 		}
 
 	}
@@ -107,6 +128,7 @@ Status menu(AddressBook *address_book)
 	ContactInfo backup;
 	Status ret;
 	int option;
+	int current_index = 0;
 
 	do
 	{
@@ -136,8 +158,8 @@ Status menu(AddressBook *address_book)
 				delete_contact(address_book);
 				break;
 			case e_list_contacts:
+			list_contacts(address_book , "list contacts", &index, "", e_list);
 				break;
-				/* Add your implementation to call list_contacts function here */
 			case e_save:
 				save_file(address_book);
 				break;
