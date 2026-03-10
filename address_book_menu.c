@@ -266,7 +266,6 @@ Status search_contact(AddressBook *address_book)
 		printf("1. Name\n");
 		printf("2. Phone Number\n");
 		printf("3. Email\n");
-		printf("4. Serial Number\n"); 	//not implemented yet
 
 		option = get_option(NUM, "Please select an option: ");
 
@@ -287,11 +286,6 @@ Status search_contact(AddressBook *address_book)
 				fgets(search_str, 32, stdin);
 				search(search_str, address_book, address_book->count, 2, "Search Result:", e_search); // we definitely do not return the value from search function
 				break;																				// we just run; but do we check status of search maybe ??
-			case e_fifth_opt:
-				printf("Enter the Serial No: ");
-				fgets(search_str, 32, stdin);
-				search(search_str, address_book, address_book->count, 3, "Search Result:", e_search);
-				break;
 			case e_first_opt:
 				break;
 		}
@@ -388,7 +382,7 @@ Status edit_contact(AddressBook *address_book)
 		for(int i = 0; i < address_book->count; i++)
 		{
 			// Same Issue from Line 255
-			if(strcmp(name, address_book->list->name[0]) == 0)				// problem fixed: "address_book->list", but list also has to be dereferenced because it is a pointer. so "list->"
+			if(strcmp(name, address_book->list[i].name[0]) == 0)				
 			{
 				index = i;
 				break;
@@ -445,7 +439,7 @@ Status delete_contact(AddressBook *address_book)
 
 		for(int i = 0; i < address_book->count; i++)
 		{
-			if(strcmp(name, address_book->list->name[0]) == 0)
+			if(strcmp(name, address_book->list[i].name[0]) == 0)
 			{
 				index = i;
 				break;
