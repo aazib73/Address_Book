@@ -55,6 +55,22 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 	 * The menu provide navigation option if the entries increase the page size
 	 */ 
 
+	if( address_book -> count == 0){
+
+		printf("There are no contacts, please add them");
+	}else{
+		
+		for(int i=0; i<address_book -> count; i++){
+
+			printf("Name: %s\n", address_book->list[i].name[0]);
+
+			printf("Phone: %s\n", address_book -> list[i].phone_numbers[0]);
+
+			printf("Email: %s\n", address_book -> list[i].email_addresses[0]);
+		}
+
+	}
+
 	return e_success;
 }
 
