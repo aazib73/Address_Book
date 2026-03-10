@@ -10,6 +10,8 @@
 
 #define WINDOW_SIZE						5
 
+#define PAGE_SIZE                       10
+
 void menu_header(const char *str);
 void main_menu(void);
 Status menu(AddressBook *address_book);
