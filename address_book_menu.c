@@ -175,16 +175,23 @@ Status add_contacts(AddressBook *address_book)
 			case e_fourth_opt:
 				fgets(email, EMAIL_ID_LEN, stdin);
 				break;
-			case e_exit:
+			case e_first_opt:
 				break;
 		}
 
-	} while (option != e_exit);
+	} while (option != e_first_opt);
 
-	if (name != "") strcpy(address_book->list->name[0][0], name);
-	if (number != "") strcpy(address_book->list->phone_numbers[0][0], number);
-	if (email != "") strcpy(address_book->list->email_addresses[0][0], email);
+	/* Two things:
+	1. name is a pointer, so this condition is invalid.
+	2. name is already a char*, so you only need one [] at the end
+	3. You forgot to increment address_book-> count after all of this.
+	*/
+	if (strlen(name) > 0) strcpy(address_book->list[address_book->count].name[0], name);
+	if (strlen(number) > 0) strcpy(address_book->list[address_book->count].phone_numbers[0], number);
+	if (strlen(email) > 0) strcpy(address_book->list[address_book->count].email_addresses[0], email);
 
+	address_book->count++;
+	
 	return e_success;
 } 
 
