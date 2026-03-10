@@ -65,7 +65,7 @@ void menu_header(const char *str)
 	system("clear");
 
 	printf("#######  Address Book  #######\n");
-	if (str != '\0')
+	if (!strcmp(str, "\0"))
 	{
 		printf("#######  %s\n", str);
 	}
@@ -243,9 +243,74 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
 Status edit_contact(AddressBook *address_book)
 {
 	/* Add the functionality for edit contacts here */
+	int index = -1;
+	while(1)
+	{
+		printf("Name of Contact to edit (q to quit): ");
+		char name[32];
+		scanf("%s", &name);
+
+		if(strcmp(name, "q"))
+			return e_back;
+
+		for(int i = 0; i < address_book->count; i++)
+		{
+			if(strcmp(name, address_book->list->name[i]))
+			{
+				index = i;
+				break;
+			}
+		}
+
+		printf("Name not found try again\n");
+	}
+
+	printf("New name of contact: ");
+	char name[NAME_LEN];
+	scanf("%s", &name);
+	strcpy(address_book->list->name[index], name);
+
+	printf("New number: ");
+	char num[NUMBER_LEN];
+	scanf("%s", &num);
+	strcpy(address_book->list->phone_numbers[index], num);
+
+	printf("New email: ");
+	char email[EMAIL_ID_LEN];
+	scanf("%s", &email);
+	strcpy(address_book->list->email_addresses[index], email);
+
+	return e_success;
 }
 
 Status delete_contact(AddressBook *address_book)
 {
 	/* Add the functionality for delete contacts here */
+	int index = -1;
+	while(1)
+	{
+		printf("Name of Contact to delete (q to quit): ");
+		char name[NAME_LEN];
+		scanf("%s", &name);
+
+		if(strcmp(name, "q"))
+			return e_back;
+
+		for(int i = 0; i < address_book->count; i++)
+		{
+			if(strcmp(name, address_book->list->name[i]))
+			{
+				index = i;
+				break;
+			}
+		}
+
+		printf("Name not found try again\n");
+	}
+
+	strcpy(address_book->list->name[index], "");
+	strcpy(address_book->list->phone_numbers[index], "");
+	strcpy(address_book->list->email_addresses[index], "");
+
+	return e_success;
 }
