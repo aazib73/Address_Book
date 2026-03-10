@@ -49,15 +49,16 @@ Status save_prompt(AddressBook *address_book)
 		if (option == 'Y')
 		{
 			save_file(address_book);
+			
 			printf("Exiting. Data saved in %s\n", DEFAULT_FILE);
 
-			break;
+			return e_success;
 		}
 	} while (option != 'N');					
 
 	free(address_book->list);
 
-	return e_success;
+	return e_back;
 }
 
 

@@ -58,6 +58,29 @@ void test_get_option_none() {
     fclose(stdin);
 }
 
+void test_save_prompt() {
+    FILE * p;
+    prepare_stdin(p, "N\n");
+
+    AddressBook book;
+
+    Status status = save_prompt(&book);
+    TEST_ASSERT_EQUAL(status, e_back);
+    fclose(stdin);
+}
+
+void test_list_contacts() {
+    AddressBook book;
+    book.count = 1;
+    ContactInfo info = {0};
+    book.list = &info;
+
+    FILE * p;
+    prepare_stdin(p, "3\n");
+    Status status = save_prompt(&book);
+    fclose(stdin);
+}
+
 
 int main(void) {
     UNITY_BEGIN();
@@ -65,6 +88,8 @@ int main(void) {
     RUN_TEST(test_get_option_char_multiple);
     RUN_TEST(test_get_option_int);
     RUN_TEST(test_get_option_none);
+    RUN_TEST(test_save_prompt);
+    RUN_TEST(test_list_contacts);
     return UNITY_END();
 }
 
