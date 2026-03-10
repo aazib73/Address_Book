@@ -55,41 +55,64 @@ Status list_contacts(AddressBook *address_book, const char *title, int *index, c
 	 * The menu provide navigation option if the entries increase the page size
 	 */ 
 	bool_t list_contacts =1;
-	char choice;
+	int choice;
 	if( address_book -> count == 0){
 
 		printf("There are no contacts, please add them");
 	}else{
 		while( list_contacts){
+			char menu_input[20];
+			long value;
+			char *end_pointer;
 			for( int i= *index; i<address_book -> count && i<(*index + PAGE_SIZE);i++){
 
 				printf("Name: %s\n", address_book->list[i].name[0]);
 				printf("Phone: %s\n", address_book -> list[i].phone_numbers[0]);
 				printf("Email: %s\n", address_book -> list[i].email_addresses[0]);
+				printf(" \n");
 				}
+				printf("1. Next Page\n");
+				printf("2. Previous Page\n");
+				printf("3. Exit\n");
+				fgets(menu_input,sizeof(menu_input),stdin);
 
-			if(*index + PAGE_SIZE< address_book -> count){
+				value = strtol(menu_input,&end_pointer,10);
 
-				printf("Do you want to print the next page? Y/N\n");
-				scanf(" %c", &choice);
+				if(end_pointer==menu_input||*end_pointer!='\n'){
+					printf("Invalid input, enter a number betwenn 1-3\n");
+					continue;
+				} 
+				choice = (int) value;
 
-				if(choice == 'Y'||choice == 'y'){
+				switch(choice){
 
-				*index = *index + PAGE_SIZE;
+					case 1:
+					if(*index +PAGE_SIZE< address_book -> count){
+						*index = *index + PAGE_SIZE;	
+					}else{
+						printf("Already at last page\n");
+					}
+					
+					break;
 
-				}else{
+					case 2:
+					if (*index>=PAGE_SIZE){
+						*index -= PAGE_SIZE;
+					}else{
+						printf("Already at first page\n");
+					}
+					break;
 
+					case 3:
 					list_contacts = 0;
+					break;
 
+					default:
+					printf("invalind input, choose 1,2, or 3");
+					break;
 				}
 
-			}else{
-
-				list_contacts = 0;
 			}
-				
-		}
-
 	}
 
 	return e_success;
