@@ -201,20 +201,8 @@ Status add_contacts(AddressBook *address_book)				// case e_add_contact will cal
 
 	} while (option != e_exit);
 
-	char * writeAddress;		// better way to write??
-	if (name != "") {	// if name isn't null; we write the name to the address
-		writeAddress = address_book->list->name[0][0];
-		for (int i = 0; i < NAME_LEN; i++) {
-			writeAddress[i] = name[i];
-		}
-	}
+	if (name != "") strcpy(address_book->list->name[0][0], name);
 	
-	if (number != "") {		// FIX FIX:: Currently only writing to the first of 5 avaliable phone number slots
-		writeAddress = address_book->list->phone_numbers[0][0];		
-		for (int i = 0; i < NUMBER_LEN; i++) {
-			writeAddress[i] = number[i];
-		}
-	}
 
 	if (email != "") {		// FIX FIX:: Currently only writing to the first of 5 avaliable email slots
 		writeAddress = address_book->list->email_addresses[0][0];
