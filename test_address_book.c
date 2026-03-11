@@ -101,23 +101,46 @@ void test_menu() {
 }
 
 void test_add_contacts() {
-
+    FILE * p;
+    AddressBook book;
+    prepare_stdin(p, "0\n");
+    Status status = add_contacts(&book);
+    TEST_ASSERT_EQUAL(e_success, status);
+    fclose(stdin);
 }
 
 void test_search_contact() {
-
+    FILE * p;
+    AddressBook book;
+    prepare_stdin(p, "0\n");
+    Status status = add_contacts(&book);
+    TEST_ASSERT_EQUAL(e_success, status);
+    fclose(stdin);
 }
 
 void test_search() {
-
+    AddressBook book;
+    book.count = 0;
+    Status status = search("", &book, 0, 0, "", e_search);
+    TEST_ASSERT_EQUAL(e_no_match, status);
 }
 
 void test_edit_contact() {
-
+    FILE * p;
+    AddressBook book;
+    prepare_stdin(p, "q\n");
+    Status status = edit_contact(&book);
+    TEST_ASSERT_EQUAL(e_back, status);
+    fclose(stdin);
 }
 
 void test_delete_contact() {
-
+    FILE * p;
+    AddressBook book;
+    prepare_stdin(p, "q\n");
+    Status status = delete_contact(&book);
+    TEST_ASSERT_EQUAL(e_back, status);
+    fclose(stdin);
 }
 
 int main(void) {
