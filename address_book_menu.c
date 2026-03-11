@@ -49,15 +49,16 @@ Status save_prompt(AddressBook *address_book)
 		if (option == 'Y')
 		{
 			save_file(address_book);
+			
 			printf("Exiting. Data saved in %s\n", DEFAULT_FILE);
 
-			break;
+			return e_success;
 		}
 	} while (option != 'N');					
 
 	free(address_book->list);
 
-	return e_success;
+	return e_back;
 }
 
 
@@ -184,7 +185,7 @@ Status menu(AddressBook *address_book)
 		switch (option)
 		{
 			case e_add_contact:
-				/* Add your implementation to call add_contacts function here */
+				add_contacts(address_book);
 				break;
 			case e_search_contact:
 				search_contact(address_book);
@@ -196,7 +197,7 @@ Status menu(AddressBook *address_book)
 				delete_contact(address_book);
 				break;
 			case e_list_contacts:
-			list_contacts(address_book , "list contacts", &index, "", e_list);
+			list_contacts(address_book , "list contacts", &current_index, "", e_list);
 				break;
 			case e_save:
 				save_file(address_book);
@@ -260,38 +261,44 @@ Status search_contact(AddressBook *address_book)
 {
     int option;
     char search_str[32];
+	do {		// added a do while; keep coming back to this menu, even if a contact is found
+		menu_header("Search Contact by:");	// use the menu_header for consistent formatting
+		printf("0. Exit\n");
+		printf("1. Name\n");
+		printf("2. Phone Number\n");
+		printf("3. Email\n");
 
-    printf("\nSearch Contact By:\n");
-    printf("1. Name\n");
-    printf("2. Phone Number\n");
-    printf("3. Email\n");
+		option = get_option(NUM, "Please select an option: ");
 
-    printf("Enter option: ");
-    scanf("%d", &option);
-
-    printf("Enter search value: ");
-    scanf("%s", search_str);
-
-    switch(option)
-    {
-        case 1:
-            return search(search_str, address_book, address_book->count, 0, "Name Search", e_search);
-
-        case 2:
-            return search(search_str, address_book, address_book->count, 1, "Phone Search", e_search);
-
-        case 3:
-            return search(search_str, address_book, address_book->count, 2, "Email Search", e_search);
-
-        default:
-            printf("Invalid option\n");
-    }
-
-    return e_fail;
+		switch(option)
+		{
+			case e_second_opt:
+				printf("Enter the Name: ");
+				fgets(search_str, 32, stdin);
+				search(search_str, address_book, address_book->count, 0, "Search Result:", e_search);
+				break;
+			case e_third_opt:
+				printf("Enter the Phone: ");
+				fgets(search_str, 32, stdin);
+				search(search_str, address_book, address_book->count, 1, "Search Result:", e_search);
+				break;
+			case e_fourth_opt:
+				printf("Enter the Email: ");
+				fgets(search_str, 32, stdin);
+				search(search_str, address_book, address_book->count, 2, "Search Result:", e_search); // we definitely do not return the value from search function
+				break;																				// we just run; but do we check status of search maybe ??
+			case e_first_opt:
+				break;
+		}
+	} while (option != e_exit);
+    return e_success;
 }
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
 {
+
+	menu_header(msg);
+	
     int i, j;
     int found = 0;
 
@@ -376,7 +383,7 @@ Status edit_contact(AddressBook *address_book)
 		for(int i = 0; i < address_book->count; i++)
 		{
 			// Same Issue from Line 255
-			if(strcmp(name, address_book->list.name[0]) == 0)
+			if(strcmp(name, address_book->list[i].name[0]) == 0)				
 			{
 				index = i;
 				break;
@@ -425,7 +432,7 @@ Status delete_contact(AddressBook *address_book)
 	char name[NAME_LEN];
 	while(1)
 	{
-		printf("Name of Contact to delete (q to quit): ");
+		menu_header("Search Contact to Delete by:");
 		scanf("%s", name);
 
 		if(strcmp(name, "q") == 0)
@@ -433,7 +440,7 @@ Status delete_contact(AddressBook *address_book)
 
 		for(int i = 0; i < address_book->count; i++)
 		{
-			if(strcmp(name, address_book->list.name[0]) == 0)
+			if(strcmp(name, address_book->list[i].name[0]) == 0)
 			{
 				index = i;
 				break;
