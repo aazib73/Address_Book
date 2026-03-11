@@ -12,6 +12,7 @@
 
 #define PAGE_SIZE                       10
 
+int get_option(int type, const char * msg);
 void menu_header(const char *str);
 void main_menu(void);
 Status menu(AddressBook *address_book);
