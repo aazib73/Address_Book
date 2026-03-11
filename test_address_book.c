@@ -151,7 +151,14 @@ int main(void) {
     RUN_TEST(test_get_option_none);
     RUN_TEST(test_save_prompt);
     RUN_TEST(test_list_contacts);
+    RUN_TEST(test_menu_header);
+    RUN_TEST(test_main_menu);
     RUN_TEST(test_menu);
+    RUN_TEST(test_add_contacts);
+    RUN_TEST(test_search_contact);
+    RUN_TEST(test_search);
+    RUN_TEST(test_edit_contact);
+    RUN_TEST(test_delete_contact);
     return UNITY_END();
 }
 
