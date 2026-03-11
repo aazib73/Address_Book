@@ -24,6 +24,7 @@ void prepare_stdin(FILE * p, char * input) {
 
 void test_get_option_char_single() {
     FILE * p; 
+    FILE * std = stdin;
     prepare_stdin(p, "f\n");
 
     char result = get_option(CHAR, "");
@@ -65,7 +66,7 @@ void test_save_prompt() {
     AddressBook book;
 
     Status status = save_prompt(&book);
-    TEST_ASSERT_EQUAL(status, e_back);
+    TEST_ASSERT_EQUAL(e_back, status);
     fclose(stdin);
 }
 
@@ -78,9 +79,46 @@ void test_list_contacts() {
     FILE * p;
     prepare_stdin(p, "3\n");
     Status status = save_prompt(&book);
+    TEST_ASSERT_EQUAL(e_success, status);
     fclose(stdin);
 }
 
+void test_menu_header() {
+    TEST_ASSERT_EQUAL(1, 1);
+}
+
+void test_main_menu() {
+    TEST_ASSERT_EQUAL(1, 1);
+}
+
+void test_menu() {
+    FILE * p;
+    AddressBook book;
+    prepare_stdin(p, "0\n");
+    Status status = menu(&book);
+    TEST_ASSERT_EQUAL(e_success, status);
+    fclose(stdin);
+}
+
+void test_add_contacts() {
+
+}
+
+void test_search_contact() {
+
+}
+
+void test_search() {
+
+}
+
+void test_edit_contact() {
+
+}
+
+void test_delete_contact() {
+
+}
 
 int main(void) {
     UNITY_BEGIN();
@@ -90,6 +128,7 @@ int main(void) {
     RUN_TEST(test_get_option_none);
     RUN_TEST(test_save_prompt);
     RUN_TEST(test_list_contacts);
+    RUN_TEST(test_menu);
     return UNITY_END();
 }
 
