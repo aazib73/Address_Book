@@ -27,7 +27,7 @@ void test_get_option_char_single() {
     FILE * std = stdin;
     prepare_stdin(p, "f\n");
 
-    char result = get_option(CHAR, "");
+    int result = get_option(CHAR, "");
     TEST_ASSERT_EQUAL('f', result);
     fclose(stdin);
 }
